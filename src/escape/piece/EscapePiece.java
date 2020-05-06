@@ -12,6 +12,10 @@
 
 package escape.piece;
 
+import escape.board.coordinate.Coordinate;
+import escape.piece.movement.Movement;
+import escape.board.Board;
+
 /**
  * This is a class for Pieces.
  * 
@@ -24,6 +28,7 @@ public class EscapePiece
 {
     private final PieceName name;
     private final Player player;
+    private Movement rules;
     
     /**
      * Constructor that takes the player and piece name.
@@ -34,6 +39,7 @@ public class EscapePiece
     {
     	this.player = player;
     	this.name = name;
+    	this.rules = null;
     }
 	
 	/**
@@ -64,5 +70,26 @@ public class EscapePiece
 	public Player getPlayer()
 	{
 		return player;
+	}
+	
+	/**
+	 * set movement rules for this piece
+	 * @param rules
+	 */
+	public void setRules(Movement rules) 
+	{
+		this.rules = rules;
+	}
+	
+	/**
+	 * Detemines if a given move is valid for this piece
+	 * @param from is the coordinate where the piece is currently at 
+	 * @param to is the coordinate where the piece would like to go
+	 * @param board is the game board
+	 * @return true if the move is valid, false otherwise
+	 */
+	public boolean canMove(Coordinate from, Coordinate to, Board board) 
+	{
+		return rules.abideRules(from, to, board);
 	}
 }
