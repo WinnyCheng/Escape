@@ -1,7 +1,8 @@
 Beta Todo List
 ======================================
-move
 
+
+============================================
 Movement class
  - store movement pattern and attributes
  - check if a move follows pattern and attributes (abideRules function)
@@ -29,16 +30,29 @@ Movement class
           - with jump
           - with fly
           - with unblocked
+==========================================
  
 EscapePiece
  - canMove -> calls abideRules function in Movement class and return what it returns
+=============================================================================
  
 EscapeGameManager
  - move -> calls canMove from EscapePiece and removes/place pieces on board
+ 
+ Tests (For each coordinate type: Square, OrthoSquare, Hex)
+    - from coordinate doesn't have a piece = false (check for null)
+    - move piece to another postion where there is already a piece of same player = false 
+    	(check pieces are still in original positions/testing getPieceAt)
+    - move piece to position with opponent piece and capture = true (check piece is replaced)
+    - move piece to exit = true (check piece not at exit position)
+    - check make coordinate makes the right coordinate
+=================================================================================
 
-=========================
-getPieceAt
+Configurations Exception
+ - Distance for Fly Must
+ - Cannot have both Distance and Fly
+ - Need at least one pieceType
+ - Need movementpattern
+ - Need pieceName
 
-=========================
-makeCoordinate
 

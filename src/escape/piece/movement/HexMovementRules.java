@@ -37,10 +37,19 @@ public class HexMovementRules extends MovementRules<HexCoordinate, HexBoard>
 	@Override
 	public boolean abideRules(HexCoordinate from, HexCoordinate to, HexBoard board) 
 	{
-		EscapePiece piece = board.getPieceAt(from);
+		// remove piece from the "from" and "to" coordinate
+		// this needs to be done because of the way search algorithm and map is set up
+		EscapePiece frompiece = board.getPieceAt(from);
+		EscapePiece topiece = board.getPieceAt(to);
+		
 		board.putPieceAt(null, from);
+		board.putPieceAt(null, to);
+		
 		toGraph(from, to, board);
-		board.putPieceAt(piece, from);
+		
+		// put the pieces back to thier original place
+		board.putPieceAt(frompiece, from);
+		board.putPieceAt(topiece, to);
 		
 		if(pattern == LINEAR) 
 		{
@@ -62,7 +71,7 @@ public class HexMovementRules extends MovementRules<HexCoordinate, HexBoard>
 			{
 				for(HexCoordinate key : map.keySet()) 
 				{
-					if(-1*from.deltaX(to) != from.deltaY(to))
+					if(-1*from.deltaX(key) != from.deltaY(key))
 						map.put(key, null);
 				}
 			}

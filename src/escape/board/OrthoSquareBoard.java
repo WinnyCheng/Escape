@@ -11,8 +11,7 @@
  *******************************************************************************/
 package escape.board;
 
-import escape.board.coordinate.OrthoSquareCoordinate;
-import escape.exception.EscapeException;
+import escape.board.coordinate.*;
 
 
 /**
@@ -27,15 +26,15 @@ public class OrthoSquareBoard extends GeneralBoard<OrthoSquareCoordinate>
 	}
 	
 	/*
-	 * @see escape.board.GeneralBoard#outOfBoundException(escape.board.coordinate.Coordinate)
+	 * @see escape.board.GeneralBoard#isOutOfBound(escape.board.coordinate.Coordinate)
 	 */
-	void outOfBoundException(OrthoSquareCoordinate coord)
+	@Override
+	public boolean isOutOfBound(OrthoSquareCoordinate coord)
 	{
 		int x = coord.getX();
 		int y = coord.getY();
 		
-		if(x <= 0 || x > getMaxX() || y <=0 || y > getMaxY())
-			throw new EscapeException("Coordinate not on board.");
+		return x <= 0 || x > getMaxX() || y <=0 || y > getMaxY();
 	}
 	
 	

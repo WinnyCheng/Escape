@@ -11,8 +11,7 @@
  *******************************************************************************/
 package escape.board;
 
-import escape.board.coordinate.SquareCoordinate;
-import escape.exception.EscapeException;
+import escape.board.coordinate.*;
 
 /**
  * Square grid board with SquareCoordinates
@@ -26,14 +25,14 @@ public class SquareBoard extends GeneralBoard<SquareCoordinate>
 	}
 	
 	/*
-	 * @see escape.board.GeneralBoard#outOfBoundException(escape.board.coordinate.Coordinate)
+	 * @see escape.board.GeneralBoard#isOutOfBound(escape.board.coordinate.Coordinate)
 	 */
-	void outOfBoundException(SquareCoordinate coord)
+	@Override
+	public boolean isOutOfBound(SquareCoordinate coord)
 	{
 		int x = coord.getX();
 		int y = coord.getY();
 		
-		if(x <= 0 || x > getMaxX() || y <=0 || y > getMaxY())
-			throw new EscapeException("Coordinate not on board.");
+		return x <= 0 || x > getMaxX() || y <=0 || y > getMaxY();
 	}
 }

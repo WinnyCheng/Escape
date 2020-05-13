@@ -98,7 +98,7 @@ public class HexMovementRulesTest
 	{
 		HexMovementRules rules = new HexMovementRules(OMNI, 3);
 		assertFalse(rules.abideRules(c1_n1, cn1_0, board));
-		assertFalse(rules.abideRules(c1_n2, c1_0, board));
+		assertFalse(rules.abideRules(cn2_1, c2_n1, board));
 		
 	}
 	

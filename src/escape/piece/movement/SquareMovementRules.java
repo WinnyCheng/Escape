@@ -37,10 +37,19 @@ public class SquareMovementRules extends MovementRules<SquareCoordinate, SquareB
 	@Override
 	public boolean abideRules(SquareCoordinate from, SquareCoordinate to, SquareBoard board) 
 	{
-		EscapePiece piece = board.getPieceAt(from);
+		// remove piece from the "from" and "to" coordinate
+		// this needs to be done because of the way search algorithm and map is set up
+		EscapePiece frompiece = board.getPieceAt(from);
+		EscapePiece topiece = board.getPieceAt(to);
+		
 		board.putPieceAt(null, from);
+		board.putPieceAt(null, to);
+		
 		toGraph(from, to, board);
-		board.putPieceAt(piece, from);
+		
+		// put the pieces back to thier original place
+		board.putPieceAt(frompiece, from);
+		board.putPieceAt(topiece, to);
 		
 		if(pattern == LINEAR) 
 		{

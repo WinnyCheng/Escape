@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <escapeGameInitializer>
-	<coordinateType>SQUARE</coordinateType>
+	<coordinateType>HEX</coordinateType>
     <!-- Board items -->
-    <xMax>20</xMax>
-    <yMax>25</yMax>
+    <xMax>0</xMax>
+    <yMax>0</yMax>
     <locationInitializers> <!-- An array of these, 0 or more -->
         <x>3</x>
         <y>4</y>
@@ -15,14 +15,14 @@
         <locationType>BLOCK</locationType>
     </locationInitializers>
     <locationInitializers>
-    	<x>15</x>
-    	<y>15</y>
+    	<x>0</x>
+    	<y>0</y>
     	<locationType>CLEAR</locationType>
     	<player>PLAYER2</player>
     	<pieceName>FROG</pieceName></locationInitializers>
     <locationInitializers>
-    	<x>8</x>
-    	<y>9</y>
+    	<x>0</x>
+    	<y>-2</y>
     	<locationType>CLEAR</locationType>
     	<player>PLAYER1</player>
     	<pieceName>HORSE</pieceName></locationInitializers>

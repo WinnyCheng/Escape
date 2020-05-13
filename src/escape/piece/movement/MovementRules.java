@@ -15,8 +15,6 @@ package escape.piece.movement;
 import escape.board.*;
 import escape.board.coordinate.*;
 import escape.piece.*;
-import static escape.board.LocationType.BLOCK;
-import static escape.board.coordinate.HexCoordinate.makeCoordinate;
 import java.util.*;
 
 /**
@@ -49,6 +47,15 @@ public abstract class MovementRules<C extends Coordinate2D, B extends GeneralBoa
 	public void setValue(int value) 
 	{
 		this.value = value;
+	}
+	
+	/**
+	 * sets the distance
+	 * @param value
+	 */
+	public void setDistance(int dis) 
+	{
+		this.distance = dis;
 	}
 	
 	/**

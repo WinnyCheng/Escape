@@ -14,23 +14,11 @@
         <y>6</y>
         <locationType>BLOCK</locationType>
     </locationInitializers>
-    <locationInitializers>
-    	<x>15</x>
-    	<y>15</y>
-    	<locationType>CLEAR</locationType>
-    	<player>PLAYER2</player>
-    	<pieceName>FROG</pieceName></locationInitializers>
-    <locationInitializers>
-    	<x>8</x>
-    	<y>9</y>
-    	<locationType>CLEAR</locationType>
-    	<player>PLAYER1</player>
-    	<pieceName>HORSE</pieceName></locationInitializers>
-
+    
     <!-- Piece items, an array of pieceTypes, 1 or more -->
     <pieceTypes>
         <movementPattern>LINEAR</movementPattern>
-        <pieceName>FROG</pieceName>
+        <pieceName></pieceName>
         <attributes>
             <id>DISTANCE</id>
             <attrType>INTEGER</attrType>
@@ -38,16 +26,7 @@
         </attributes>
     </pieceTypes>
     <pieceTypes>
-        <movementPattern>OMNI</movementPattern>
+        <movementPattern>LINEAR</movementPattern>
         <pieceName>HORSE</pieceName>
-        <attributes>
-            <id>UNBLOCK</id>
-            <attrType>BOOLEAN</attrType>
-            <booleanValue>false</booleanValue>
-        </attributes>
-        <attributes>
-        	<id>FLY</id>
-        	<attrType>INTEGER</attrType>
-        	<intValue>10</intValue></attributes>
     </pieceTypes>
 </escapeGameInitializer>

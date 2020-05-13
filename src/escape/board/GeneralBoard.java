@@ -12,7 +12,7 @@
 package escape.board;
 
 import java.util.*;
-import escape.board.coordinate.Coordinate;
+import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 import static escape.board.LocationType.*;
@@ -54,7 +54,7 @@ public abstract class GeneralBoard<C extends Coordinate> implements Board<C>
 	public void putPieceAt(EscapePiece piece, C coord)
 	{
 		outOfBoundException(coord);
-		if(getLocationType(coord) == BLOCK)
+		if(getLocationType(coord) == BLOCK && piece != null)
 			throw new EscapeException("Cannot place piece on blocked coordinate.");
 		if(getLocationType(coord) == EXIT)
 			return;
@@ -110,7 +110,17 @@ public abstract class GeneralBoard<C extends Coordinate> implements Board<C>
 	 * 
 	 * @param coord is a coordinate
 	 */
-	abstract void outOfBoundException(C coord);
+	void outOfBoundException(C coord)
+	{
+		if(isOutOfBound(coord))
+			throw new EscapeException("Coordinate not on board.");
+	}
 	
+	/**
+	 * Check if the given coordinate is outside the bounds of the board
+	 * @param coord
+	 * @return true if out of bound else false
+	 */
+	public abstract boolean isOutOfBound(C coord);
 	
 }
