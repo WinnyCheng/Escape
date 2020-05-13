@@ -12,7 +12,6 @@
 package escape.board;
 
 import escape.board.coordinate.HexCoordinate;
-import escape.exception.EscapeException;
 
 /**
  * Hexgonal grid board with HexCoordinates
@@ -26,17 +25,16 @@ public class HexBoard extends GeneralBoard<HexCoordinate>
 	}
 	
 	/*
-	 * @see escape.board.GeneralBoard#outOfBoundException(escape.board.coordinate.Coordinate)
+	 * @see escape.board.GeneralBoard#isOutOfBound(escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	void outOfBoundException(HexCoordinate coord)
+	public boolean isOutOfBound(HexCoordinate coord)
 	{
 		int x = coord.getX();
 		int y = coord.getY();
 		int xMax = getMaxX();
 		int yMax = getMaxY();
 		
-		if((x < 0 || x > xMax) && xMax != 0 || (y < 0 || y > yMax) && yMax != 0)
-			throw new EscapeException("Coordinate not on board.");
+		return (x < 0 || x > xMax) && xMax != 0 || (y < 0 || y > yMax) && yMax != 0;
 	}
 }

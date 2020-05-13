@@ -1,85 +1,58 @@
-Coordinate Classes
+Beta Todo List
+======================================
 
-1. write test cases for SquareCoordinate - Done
-	- (6, 3).distanceTo(6, 3) = 0
-	- (4, 4).distanceTo(4, 1) = 3
-	- (1, 4).distanceTo(1, 9) = 5
-	- (3, 1).distanceTo(12, 1) = 9
-	- (8, 5).distanceTo(1, 5) = 7
-	- (3, 2).distanceTo(7, 5) = 4
-	- (4, 6).distanceTo(5, 1) = 5
-	- (6, 2).distanceTo(2, 5) = 4
-	- (7, 7).distanceTo(1, 3) = 6
-	
-2. implement SquareCoordinate class and test - Done
 
-3. write test cases for OrthoSquareCoordinate - Done
-	- (6, 3).distanceTo(6, 3) = 0
-	- (4, 4).distanceTo(4, 1) = 3
-	- (1, 4).distanceTo(1, 9) = 5
-	- (3, 1).distanceTo(12, 1) = 9
-	- (8, 5).distanceTo(1, 5) = 7
-	- (3, 2).distanceTo(7, 5) = 7
-	- (4, 6).distanceTo(5, 1) = 6
-	- (6, 2).distanceTo(2, 5) = 7
-	- (7, 7).distanceTo(1, 3) = 10
+============================================
+Movement class
+ - store movement pattern and attributes
+ - check if a move follows pattern and attributes (abideRules function)
+      - use BFS Algorithm to find path
+      - represent current state of board as graph/map to run BFS
+      
+      Tests
+      - OrthoMovementRules - Done
+          - linear pattern (no jump, no fly, no unblocked)
+          - orthogonal=omni pattern (no jump, no fly, no unblocked)
+          - with jump
+          - with fly
+          - with unblocked
+      - SquareMovementRules - Done
+          - linear pattern (no jump, no fly, no unblocked)
+          - orthogonal pattern (no jump, no fly, no unblocked)
+          - diagonal pattern (no jump, no fly, no unblocked)
+          - omni pattern (no jump, no fly, no unblocked)
+          - with jump
+          - with fly
+          - with unblocked
+      - HexMovementRules - Done
+      	  - linear pattern (no jump, no fly, no unblocked)
+          - omni pattern (no jump, no fly, no unblocked)
+          - with jump
+          - with fly
+          - with unblocked
+==========================================
+ 
+EscapePiece
+ - canMove -> calls abideRules function in Movement class and return what it returns
+=============================================================================
+ 
+EscapeGameManager
+ - move -> calls canMove from EscapePiece and removes/place pieces on board
+ 
+ Tests (For each coordinate type: Square, OrthoSquare, Hex)
+    - from coordinate doesn't have a piece = false (check for null)
+    - move piece to another postion where there is already a piece of same player = false 
+    	(check pieces are still in original positions/testing getPieceAt)
+    - move piece to position with opponent piece and capture = true (check piece is replaced)
+    - move piece to exit = true (check piece not at exit position)
+    - check make coordinate makes the right coordinate
+=================================================================================
 
-4. implement OrthoSquareCoordinate class and test - Done
+Configurations Exception
+ - Distance for Fly Must
+ - Cannot have both Distance and Fly
+ - Need at least one pieceType
+ - Need movementpattern
+ - Need pieceName
 
-5. write test cases for HexCoordinate
-	- (-2, -3).distanceTo(-2, -3) = 0
-	- (0, 0).distanceTo(0, 7) = 7 
-	- (3, -4).distanceTo(3, 7) = 11 
-	- (-2, 0).distanceTo(2, -2) = 4 
-	- (1, 0).distanceTo(-1, 1) = 2 
-	- (0, 0).distanceTo(-2, 2) = 2 
-	- (0, 0).distanceTo(1, 0) = 1 
-	- (0, 0).distanceTo(-3, 0) = 3
-	- (0, 0).distanceTo(4, -4) = 4
-	- (0, 0).distanceTo(3, 2) =  5
-	- (0, 0).distanceTo(1, -3) = 3
-	- (0, 0).distanceTo(-1, 2) = 2
-	- (-5, 3).distanceTo(3, -2) = 8
-	- (-5, 3).distanceTo(-2, -3) = 6
-	- (1, 1).distanceTo(-1, -1) = 4
-	- (-2, -3),distanceTo(1, 2) = 8
-	- (0, 3),distanceTo(2, 2) = 2
-	
-6. implement HexCoordinate class and test - Done
-
-=====================================================
-Board Classes
-
-For each board, test the following:
-	- location type
-	- get piece provides the correct piece placed
-	- boundaries
-	- put piece gives exception when location = BLOCK
-	- can put piece on EXIT but no retrieved piece when getting piece at EXIT 
-
-1. write test cases for SquareBoard - Done
-2. implement SquareBoard class and test - Done
-3. write test cases for OrthoSquareBoard - Done
-4. implement OrthoSquareBoard class and test - Done
-5. write test cases for HexBoard - Done
-6. implement HexBoard class and test - Done
-
-=====================================================
-Building Various Boards
-
-1. write other board config xml files for testing - Done
-2. write test cases to implement various boards - Done
-	- test board is not null
-	- test get Piece returns correct piece
-	- test get piece is null on coordinate with no piece set
-	- test get locationtype returns correct type
-	- test exception
-
-3. modify BoardBuilder and test - Done
-
-======================================================
-Other
-
-1. Last Refactoring - Done
-2. Comment methods and classes - Done
 

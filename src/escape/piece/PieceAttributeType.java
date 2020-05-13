@@ -9,30 +9,13 @@
  * 
  * Copyright ©2016-2020 Gary F. Pollice
  *******************************************************************************/
-package escape.board;
-
-import escape.board.coordinate.*;
+package escape.piece;
 
 /**
- * Square grid board with SquareCoordinates
- * @version Apr 2, 2020
+ * Enum to identify the type of the attribute.
+ * @version Apr 22, 2020
  */
-public class SquareBoard extends GeneralBoard<SquareCoordinate>
-{	
-	public SquareBoard(int xMax, int yMax)
-	{
-		super(xMax, yMax);
-	}
-	
-	/*
-	 * @see escape.board.GeneralBoard#isOutOfBound(escape.board.coordinate.Coordinate)
-	 */
-	@Override
-	public boolean isOutOfBound(SquareCoordinate coord)
-	{
-		int x = coord.getX();
-		int y = coord.getY();
-		
-		return x <= 0 || x > getMaxX() || y <=0 || y > getMaxY();
-	}
+public enum PieceAttributeType
+{
+	INTEGER, BOOLEAN
 }
