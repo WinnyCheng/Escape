@@ -34,8 +34,8 @@ public class EscapeGameManagerOrthoTest
 	private static OrthoSquareBoard board;
 	private static EscapeGameManager manager;
 	
-	@BeforeAll
-	public static void setup() throws Exception
+	@BeforeEach
+	void setup() throws Exception
 	{
 		board = new OrthoSquareBoard(3, 5);	
 		EscapePiece piece1 = new EscapePiece(PLAYER1, HORSE);
@@ -45,7 +45,7 @@ public class EscapeGameManagerOrthoTest
 		OrthoMovementRules rules1 = new OrthoMovementRules(ORTHOGONAL, 3);
 		rules1.setUnblock(true);
 		
-		OrthoMovementRules rules2 = new OrthoMovementRules(OMNI, 1);
+		OrthoMovementRules rules2 = new OrthoMovementRules(OMNI, 2);
 		
 		piece1.setRules(rules1);
 		piece2.setRules(rules2);
@@ -57,7 +57,7 @@ public class EscapeGameManagerOrthoTest
 		board.setLocationType(OrthoSquareCoordinate.makeCoordinate(2, 2), BLOCK);
 		board.setLocationType(OrthoSquareCoordinate.makeCoordinate(2, 5), EXIT);
 		
-		manager = new EscapeGameAdministrator(board, ORTHOSQUARE);
+		manager = new EscapeGameAdministrator(board, ORTHOSQUARE, null);
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ public class EscapeGameManagerOrthoTest
 	}
 	
 	@Test
-	void testMoveSamePlayerPieceAtTo()
+	void testMove_PieceExistAtTo()
 	{
 		assertFalse(manager.move(OrthoSquareCoordinate.makeCoordinate(1, 1), OrthoSquareCoordinate.makeCoordinate(2, 3)));
 		assertEquals(HORSE, manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(1, 1)).getName());
@@ -79,15 +79,20 @@ public class EscapeGameManagerOrthoTest
 	}
 	
 	@Test
-	void testMoveCaptureOtherPlayerAndExit()
-	{
-		assertTrue(manager.move(OrthoSquareCoordinate.makeCoordinate(2, 1), OrthoSquareCoordinate.makeCoordinate(2, 3)));
-		assertEquals(HORSE, manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(2, 3)).getName());
-		assertEquals(PLAYER2, manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(2, 3)).getPlayer());
-		assertNull(manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(2, 1)));
-		
+	void testExit()
+	{		
 		assertTrue(manager.move(OrthoSquareCoordinate.makeCoordinate(2, 3), OrthoSquareCoordinate.makeCoordinate(2, 5)));
+		assertNull(manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(2, 3)));	
 		assertNull(manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(2, 5)));	
+	}
+	
+	@Test
+	void testMove()
+	{		
+		assertTrue(manager.move(OrthoSquareCoordinate.makeCoordinate(1, 1), OrthoSquareCoordinate.makeCoordinate(3, 2)));
+		assertNull(manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(1, 1)));	
+		assertEquals(HORSE, manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(3, 2)).getName());
+		assertEquals(PLAYER1, manager.getPieceAt(OrthoSquareCoordinate.makeCoordinate(3, 2)).getPlayer());
 	}
 
 	@Test

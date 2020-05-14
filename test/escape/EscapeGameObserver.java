@@ -10,22 +10,31 @@
  * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package escape.piece;
-
-import escape.board.Board;
-import escape.board.coordinate.Coordinate;
+package escape;
 
 /**
- * Interface that contains the methods that any set of movement rules needs
- * @version May 5, 2020
+ * Description
+ * @version May 14, 2020
  */
-public interface MovementRules<C extends Coordinate, B extends Board>
+public class EscapeGameObserver implements GameObserver
 {
-	/**
-	 * Detemines if a move follows all the appropriate attributes and movement pattern rules
-	 * @param from - the starting cood on the board
-	 * @param to - the ending cood on the board
-	 * @return true if the move is possible, if not false 
+
+	/*
+	 * @see escape.GameObserver#notify(java.lang.String)
 	 */
-	boolean canMove(C from, C to, B board);
+	@Override
+	public void notify(String message)
+	{
+		System.out.println(message);
+	}
+
+	/*
+	 * @see escape.GameObserver#notify(java.lang.String, java.lang.Throwable)
+	 */
+	@Override
+	public void notify(String message, Throwable cause)
+	{
+		System.out.println(message);
+	}
+
 }

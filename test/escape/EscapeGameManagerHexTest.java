@@ -57,7 +57,7 @@ public class EscapeGameManagerHexTest
 		board.setLocationType(HexCoordinate.makeCoordinate(-1, 0), BLOCK);
 		board.setLocationType(HexCoordinate.makeCoordinate(1, 1), EXIT);
 		
-		manager = new EscapeGameAdministrator(board, HEX);
+		manager = new EscapeGameAdministrator(board, HEX, null);
 	}
 	
 	@Test
@@ -79,21 +79,20 @@ public class EscapeGameManagerHexTest
 	}
 	
 	@Test
-	void testMoveCaptureOtherPlayer()
-	{
-		assertTrue(manager.move(HexCoordinate.makeCoordinate(-1, 1), HexCoordinate.makeCoordinate(2, -2)));
-		assertEquals(HORSE, manager.getPieceAt(HexCoordinate.makeCoordinate(2, -2)).getName());
-		assertEquals(PLAYER2, manager.getPieceAt(HexCoordinate.makeCoordinate(2, -2)).getPlayer());
-		assertNull(manager.getPieceAt(HexCoordinate.makeCoordinate(-1, 1)));
-		
-	}
-	
-	@Test
 	void testMoveExit()
 	{
 		assertTrue(manager.move(HexCoordinate.makeCoordinate(1, 0), HexCoordinate.makeCoordinate(1, 1)));
 		assertNull(manager.getPieceAt(HexCoordinate.makeCoordinate(1, 1)));
 		assertNull(manager.getPieceAt(HexCoordinate.makeCoordinate(1, 0)));	
+	}
+	
+	@Test
+	void testMove()
+	{		
+		assertTrue(manager.move(HexCoordinate.makeCoordinate(1, 0), HexCoordinate.makeCoordinate(-2, 3)));
+		assertNull(manager.getPieceAt(HexCoordinate.makeCoordinate(1, 0)));	
+		assertEquals(HORSE, manager.getPieceAt(HexCoordinate.makeCoordinate(-2, 3)).getName());
+		assertEquals(PLAYER1, manager.getPieceAt(HexCoordinate.makeCoordinate(-2, 3)).getPlayer());
 	}
 
 	@Test

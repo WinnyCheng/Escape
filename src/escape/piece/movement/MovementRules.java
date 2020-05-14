@@ -32,7 +32,7 @@ public abstract class MovementRules<C extends Coordinate2D, B extends GeneralBoa
 	public MovementRules(MovementPatternID pattern, int distance) 
 	{
 		this.pattern = pattern;
-		this.value = 0;
+		this.value = 1;
 		this.distance = distance;
 		this.fly = false;
 		this.jump = false;

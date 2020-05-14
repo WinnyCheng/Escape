@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<escapeGameInitializer>
+	<coordinateType>HEX</coordinateType><!-- Board items --><xMax>0</xMax><yMax>0</yMax><!--Game rules-->
+	<rules>
+		<id>SCORE</id>
+		<intValue>1</intValue></rules>
+	<rules>
+		<id>POINT_CONFLICT</id></rules>
+	
+    
+    <!-- An array of these, 0 or more -->
+    <locationInitializers>
+    	<x>0</x>
+    	<y>0</y>
+    	<locationType>EXIT</locationType></locationInitializers>
+    <locationInitializers>
+    	<x>-2</x>
+    	<y>1</y>
+    	<locationType>CLEAR</locationType>
+    	<player>PLAYER1</player>
+    	<pieceName>HORSE</pieceName></locationInitializers>
+    <locationInitializers>
+    	<x>1</x>
+    	<y>-2</y>
+    	<pieceName>HORSE</pieceName>
+    	<player>PLAYER1</player></locationInitializers>
+    <locationInitializers>
+    	<x>2</x>
+    	<y>-1</y>
+    	<locationType>CLEAR</locationType>
+    	<player>PLAYER1</player>
+    	<pieceName>SNAIL</pieceName></locationInitializers>
+    <locationInitializers>
+    	<x>1</x>
+    	<y>-1</y>
+    	<pieceName>HORSE</pieceName>
+    	<player>PLAYER2</player></locationInitializers>
+    <locationInitializers>
+    	<x>-3</x>
+    	<y>1</y>
+    	<pieceName>HORSE</pieceName>
+    	<player>PLAYER2</player></locationInitializers>
+    <locationInitializers>
+    	<x>0</x>
+    	<y>1</y>
+    	<pieceName>SNAIL</pieceName>
+    	<player>PLAYER2</player></locationInitializers>
+
+    <!-- Piece items, an array of pieceTypes, 1 or more -->
+    <pieceTypes>
+        <movementPattern>LINEAR</movementPattern>
+        <pieceName>HORSE</pieceName>
+        <attributes>
+            <id>FLY</id>
+            <attrType>INTEGER</attrType>
+            <intValue>3</intValue>
+        </attributes>
+        <attributes>
+        	<id>VALUE</id>
+        	<attrType>INTEGER</attrType>
+        	<intValue>5</intValue></attributes>
+    </pieceTypes>
+    <pieceTypes>
+        <movementPattern>OMNI</movementPattern>
+        <pieceName>SNAIL</pieceName>
+        <attributes>
+        	<id>DISTANCE</id>
+        	<attrType>INTEGER</attrType>
+        	<intValue>2</intValue></attributes>
+        <attributes>
+        	<id>JUMP</id>
+        	<attrType>BOOLEAN</attrType>
+        	<booleanValue>true</booleanValue></attributes>
+    </pieceTypes>
+</escapeGameInitializer>

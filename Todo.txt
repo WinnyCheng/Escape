@@ -1,58 +1,60 @@
-Beta Todo List
+Gamma
 ======================================
+Notes:
+ - VALUE attribute is default 1
+     - each piece needs a value attribute to keep track of 
+       changes in value when there is POINT_CONFLICT
+ - Cannot move through exit
+ - Implement Rules
+     - config file can have no rules
+     - turn limit and score rules > 0
+     - first move is always player 1
+         - game keeps track of which player is going
+     - POINT_CONFLICT
+         - if current player piece < opponent piece, opponent piece
+           stay but value is reduced
+         - if current player piece = opponent piece, both pieces removed
+     - cannot have both REMOVE and POINT_CONFLICT
+ - Observer
+     - end of game there is tie, send message game is tie
+     - getPieceAt does not need to notify observer if null
+ - Refactor
+ - Design Doc
+     - Describe your final design with the decisions you made 
+       and patterns implemented to come to that design.
 
-
-============================================
-Movement class
- - store movement pattern and attributes
- - check if a move follows pattern and attributes (abideRules function)
-      - use BFS Algorithm to find path
-      - represent current state of board as graph/map to run BFS
+======================================================================
+To Do List:
+ 1. Modify old test cases to include rules - Done
+      - Additional Test Cases
+          - test remove true
+          - test pointconflict true (check points are correct)
+          - test game ends when it reaches turn limit or score
+          - test Observers
+          		- exceptions (out of bound, place piece on blocked location) 
+          		- wrong player on turn
+          		- piece at the "to" coordinate
+          		- winner
+ 2. Modify EscapePiece to have attribute value and update value method - Done
+ 3. Fix abideRules method so piece cannot move through exit - Done
+ 4. Implement a GameState class to keep track of game - Done
+      - which player turn
+      - number of turns
+      - number of points for each player
+      - is game won
+      		- know the winner
+ 5. Modify EscapeGameSdministrator - Done
+      - move function to include rules and notify observers - Done
+      - implement addObserver and remove Observer methods - Done
+      - add a notify allObservers method - Done
+ 6. Refactor Code and Comments
+ 7. Design Doc
       
-      Tests
-      - OrthoMovementRules - Done
-          - linear pattern (no jump, no fly, no unblocked)
-          - orthogonal=omni pattern (no jump, no fly, no unblocked)
-          - with jump
-          - with fly
-          - with unblocked
-      - SquareMovementRules - Done
-          - linear pattern (no jump, no fly, no unblocked)
-          - orthogonal pattern (no jump, no fly, no unblocked)
-          - diagonal pattern (no jump, no fly, no unblocked)
-          - omni pattern (no jump, no fly, no unblocked)
-          - with jump
-          - with fly
-          - with unblocked
-      - HexMovementRules - Done
-      	  - linear pattern (no jump, no fly, no unblocked)
-          - omni pattern (no jump, no fly, no unblocked)
-          - with jump
-          - with fly
-          - with unblocked
-==========================================
- 
-EscapePiece
- - canMove -> calls abideRules function in Movement class and return what it returns
-=============================================================================
- 
-EscapeGameManager
- - move -> calls canMove from EscapePiece and removes/place pieces on board
- 
- Tests (For each coordinate type: Square, OrthoSquare, Hex)
-    - from coordinate doesn't have a piece = false (check for null)
-    - move piece to another postion where there is already a piece of same player = false 
-    	(check pieces are still in original positions/testing getPieceAt)
-    - move piece to position with opponent piece and capture = true (check piece is replaced)
-    - move piece to exit = true (check piece not at exit position)
-    - check make coordinate makes the right coordinate
-=================================================================================
-
-Configurations Exception
- - Distance for Fly Must
- - Cannot have both Distance and Fly
- - Need at least one pieceType
- - Need movementpattern
- - Need pieceName
-
-
+      
+      
+      
+      
+      
+      
+      
+      

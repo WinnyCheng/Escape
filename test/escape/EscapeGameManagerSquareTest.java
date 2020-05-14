@@ -34,8 +34,8 @@ public class EscapeGameManagerSquareTest
 	private static SquareBoard board;
 	private static EscapeGameManager manager;
 	
-	@BeforeAll
-	public static void setup() throws Exception
+	@BeforeEach
+	void setup() throws Exception
 	{
 		board = new SquareBoard(3, 5);	
 		EscapePiece piece1 = new EscapePiece(PLAYER1, HORSE);
@@ -45,7 +45,7 @@ public class EscapeGameManagerSquareTest
 		SquareMovementRules rules1 = new SquareMovementRules(ORTHOGONAL, 3);
 		rules1.setUnblock(true);
 		
-		SquareMovementRules rules2 = new SquareMovementRules(OMNI, 1);
+		SquareMovementRules rules2 = new SquareMovementRules(OMNI, 2);
 		
 		piece1.setRules(rules1);
 		piece2.setRules(rules2);
@@ -57,7 +57,7 @@ public class EscapeGameManagerSquareTest
 		board.setLocationType(SquareCoordinate.makeCoordinate(2, 2), BLOCK);
 		board.setLocationType(SquareCoordinate.makeCoordinate(2, 5), EXIT);
 		
-		manager = new EscapeGameAdministrator(board, SQUARE);
+		manager = new EscapeGameAdministrator(board, SQUARE, null);
 	}
 	
 	@Test
@@ -69,25 +69,30 @@ public class EscapeGameManagerSquareTest
 	}
 	
 	@Test
-	void testMoveSamePlayerPieceAtTo()
+	void testMove_PieceExistAtTo()
 	{
-		assertFalse(manager.move(SquareCoordinate.makeCoordinate(1, 1), SquareCoordinate.makeCoordinate(2, 3)));
+		assertFalse(manager.move(SquareCoordinate.makeCoordinate(1, 1), SquareCoordinate.makeCoordinate(2, 1)));
 		assertEquals(HORSE, manager.getPieceAt(SquareCoordinate.makeCoordinate(1, 1)).getName());
 		assertEquals(PLAYER1, manager.getPieceAt(SquareCoordinate.makeCoordinate(1, 1)).getPlayer());
-		assertEquals(SNAIL, manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 3)).getName());
-		assertEquals(PLAYER1, manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 3)).getPlayer());
+		assertEquals(HORSE, manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 1)).getName());
+		assertEquals(PLAYER2, manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 1)).getPlayer());
 	}
 	
 	@Test
-	void testMoveCaptureOtherPlayerAndExit()
+	void testExit()
 	{
-		assertTrue(manager.move(SquareCoordinate.makeCoordinate(2, 1), SquareCoordinate.makeCoordinate(2, 3)));
-		assertEquals(HORSE, manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 3)).getName());
-		assertEquals(PLAYER2, manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 3)).getPlayer());
-		assertNull(manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 1)));
-		
 		assertTrue(manager.move(SquareCoordinate.makeCoordinate(2, 3), SquareCoordinate.makeCoordinate(2, 5)));
+		assertNull(manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 3)));	
 		assertNull(manager.getPieceAt(SquareCoordinate.makeCoordinate(2, 5)));	
+	}
+	
+	@Test
+	void testMove()
+	{		
+		assertTrue(manager.move(SquareCoordinate.makeCoordinate(1, 1), SquareCoordinate.makeCoordinate(3, 2)));
+		assertNull(manager.getPieceAt(SquareCoordinate.makeCoordinate(1, 1)));	
+		assertEquals(HORSE, manager.getPieceAt(SquareCoordinate.makeCoordinate(3, 2)).getName());
+		assertEquals(PLAYER1, manager.getPieceAt(SquareCoordinate.makeCoordinate(3, 2)).getPlayer());
 	}
 
 	@Test

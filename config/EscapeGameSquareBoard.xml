@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<escapeGameInitializer>
+	<coordinateType>SQUARE</coordinateType><!--Game rules-->
+	<rules>
+		<id>SCORE</id>
+		<intValue>5</intValue></rules>
+	<rules>
+		<id>POINT_CONFLICT</id></rules>
+	<!-- Board items -->
+    <xMax>10</xMax>
+    <yMax>10</yMax><!-- An array of these, 0 or more -->
+    <locationInitializers>
+    	<x>7</x>
+    	<y>8</y>
+    	<locationType>EXIT</locationType></locationInitializers>
+    <locationInitializers>
+    	<x>4</x>
+    	<y>2</y>
+    	<locationType>CLEAR</locationType>
+    	<player>PLAYER1</player>
+    	<pieceName>HORSE</pieceName></locationInitializers>
+    <locationInitializers>
+    	<x>3</x>
+    	<y>7</y>
+    	<locationType>CLEAR</locationType>
+    	<player>PLAYER1</player>
+    	<pieceName>SNAIL</pieceName></locationInitializers>
+    <locationInitializers>
+    	<x>1</x>
+    	<y>9</y>
+    	<pieceName>HORSE</pieceName>
+    	<player>PLAYER2</player></locationInitializers>
+    <locationInitializers>
+    	<x>3</x>
+    	<y>1</y>
+    	<pieceName>SNAIL</pieceName>
+    	<player>PLAYER2</player></locationInitializers>
+
+    <!-- Piece items, an array of pieceTypes, 1 or more -->
+    <pieceTypes>
+        <movementPattern>ORTHOGONAL</movementPattern>
+        <pieceName>HORSE</pieceName>
+        <attributes>
+            <id>DISTANCE</id>
+            <attrType>INTEGER</attrType>
+            <intValue>3</intValue>
+        </attributes>
+        <attributes>
+        	<id>VALUE</id>
+        	<attrType>INTEGER</attrType>
+        	<intValue>5</intValue></attributes>
+    </pieceTypes>
+    <pieceTypes>
+        <movementPattern>OMNI</movementPattern>
+        <pieceName>SNAIL</pieceName>
+        <attributes>
+        	<id>DISTANCE</id>
+        	<attrType>INTEGER</attrType>
+        	<intValue>2</intValue></attributes>
+    </pieceTypes>
+</escapeGameInitializer>

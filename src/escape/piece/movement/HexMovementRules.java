@@ -21,7 +21,7 @@ import static escape.board.LocationType.*;
 import java.util.*;
 
 /**
- * Class describes a set of rules for a piece
+ * Class describes a set of rules for a piece on a Hex board
  * @version May 4, 2020
  */
 public class HexMovementRules extends MovementRules<HexCoordinate, HexBoard>
@@ -44,8 +44,14 @@ public class HexMovementRules extends MovementRules<HexCoordinate, HexBoard>
 		
 		board.putPieceAt(null, from);
 		board.putPieceAt(null, to);
+		LocationType type = board.getLocationType(to);
+		if(type == EXIT)
+			board.setLocationType(to, CLEAR);
 		
 		toGraph(from, to, board);
+		
+		if(type == EXIT)
+			board.setLocationType(to, EXIT);
 		
 		// put the pieces back to thier original place
 		board.putPieceAt(frompiece, from);
@@ -97,9 +103,9 @@ public class HexMovementRules extends MovementRules<HexCoordinate, HexBoard>
 		{
 			LocationType keytype = board.getLocationType(key);
 			EscapePiece keypiece = board.getPieceAt(key);
-			if((type != BLOCK && keytype != BLOCK && piece == null && keypiece == null) 
+			if((type == CLEAR && keytype == CLEAR && piece == null && keypiece == null) 
 					|| (unblock && piece == null && keypiece == null) 
-					|| (jump && type != BLOCK && keytype != BLOCK) 
+					|| (jump && type == CLEAR && keytype == CLEAR) 
 					|| jump && unblock || fly)
 			{
 			    if(coord.distanceTo(key) == 1)

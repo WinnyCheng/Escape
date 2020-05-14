@@ -15,6 +15,7 @@ package escape;
 import static escape.board.LocationType.CLEAR;
 import static escape.board.coordinate.CoordinateID.*;
 import static escape.piece.PieceAttributeID.*;
+import static escape.rule.RuleID.*;
 import java.io.*;
 import javax.xml.bind.*;
 import escape.board.*;
@@ -22,6 +23,7 @@ import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 import escape.piece.movement.*;
+import escape.rule.Rule;
 import escape.util.*;
 import escape.util.PieceTypeInitializer.PieceAttribute;
 
@@ -76,7 +78,7 @@ public class EscapeGameBuilder
 		if(board != null && gameInitializer.getLocationInitializers() != null)
 			initializeBoard(board, gameInitializer.getLocationInitializers());
     	
-        return new EscapeGameAdministrator(board, type);
+        return new EscapeGameAdministrator(board, type, gameInitializer.getRules());
     }
     
     /**
@@ -169,14 +171,14 @@ public class EscapeGameBuilder
     	
     	for (PieceTypeInitializer li : gameInitializer.getPieceTypes()) 
   		{	
-    		//Check pieceName and Check movementPattern
+    		//Check pieceName and movementPattern exist
 	       	if(li.getMovementPattern() == null || li.getPieceName() == null)
     	       	return false;	
     		
     		boolean distanceExist = false;
     		boolean flyExist = false;
     		
-    		//Check for Distance and Fly
+    		//Check for Distance and Fly are mutually exculsive
 			for(PieceAttribute atr : li.getAttributes())
 			{
 				if(atr.getId() == DISTANCE)
@@ -188,6 +190,22 @@ public class EscapeGameBuilder
 			if(distanceExist == flyExist)
 				return false;
   		}
+    	
+    	if(gameInitializer.getRules() != null) 
+    	{
+	    	// Check rules REMOVE and POINT_CONFLICT are mutually exclusive
+	    	boolean remove = false;
+			boolean pointConflict = false;
+	    	for(Rule r: gameInitializer.getRules())
+	    	{
+				if(r.getId() == REMOVE)
+					remove = true;
+				else if(r.getId() == POINT_CONFLICT)
+					pointConflict = true;
+	    	}
+	    	if(remove && pointConflict)
+				return false;
+    	}
     	
     	return true;
     }

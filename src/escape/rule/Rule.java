@@ -7,29 +7,23 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Copyright ©2020 Gary F. Pollice
+ * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package escape;
+package escape.rule;
 
 /**
- * The interface for a client to use to get messages from the
- * game manager by registering an observer. Any implementation of this
- * must override the equals() method.
- * 
- * @version Apr 23, 2020
+ * Description
+ * @version May 13, 2020
  */
-public interface GameObserver
+public class Rule
 {
-	/**
-	* Receive a message from the game
-	* @param message
-	*/
-	void notify(String message);
-	/**
-	* Receive a message with the cause
-	* @param message
-	* @param cause
-	*/
-	void notify(String message, Throwable cause);
+	RuleID id;
+	int intValue;
+	public Rule() {}
+	public RuleID getId() { return id; }
+	public void setId(RuleID id) { this.id = id; }
+	public int getIntValue() { return intValue; }
+	public void
+	setIntValue(int intValue) { this.intValue = intValue; }
 }

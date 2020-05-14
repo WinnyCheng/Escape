@@ -13,7 +13,7 @@
 package escape.piece;
 
 import escape.board.coordinate.Coordinate;
-import escape.piece.movement.Movement;
+import escape.piece.movement.*;
 import escape.board.Board;
 
 /**
@@ -29,6 +29,7 @@ public class EscapePiece
     private final PieceName name;
     private final Player player;
     private Movement rules;
+    private int value;
     
     /**
      * Constructor that takes the player and piece name.
@@ -40,6 +41,7 @@ public class EscapePiece
     	this.player = player;
     	this.name = name;
     	this.rules = null;
+    	this.value = 1;
     }
 	
 	/**
@@ -73,12 +75,29 @@ public class EscapePiece
 	}
 	
 	/**
+	 * @return the piece value
+	 */
+	public int getValue()
+	{
+		return value;
+	}
+	
+	/**
+	 * @param value is the new value for the piece
+	 */
+	public void updateValue(int newValue)
+	{
+		this.value = newValue;
+	}
+	
+	/**
 	 * set movement rules for this piece
 	 * @param rules
 	 */
 	public void setRules(Movement rules) 
 	{
 		this.rules = rules;
+		this.value = ((MovementRules)rules).getValue();
 	}
 	
 	/**
