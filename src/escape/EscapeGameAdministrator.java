@@ -14,10 +14,10 @@ package escape;
 
 import escape.board.*;
 import escape.board.coordinate.*;
+import escape.piece.*;
 import static escape.board.coordinate.CoordinateID.*;
 import java.util.ArrayList;
 import static escape.board.LocationType.*;
-import escape.piece.EscapePiece;
 import escape.rule.*;
 import static escape.rule.RuleID.*;
 import static escape.piece.Player.*;
@@ -68,7 +68,7 @@ public class EscapeGameAdministrator implements EscapeGameManager
 		try 
 		{
 			// check if game is over
-			if(state.isGameWon()) 
+			if(state.isGameWon())  
 			{
 				if(state.winner() == PLAYER1)
 					notifyAllObservers("The game is already over. The winner is player 1!");
@@ -89,8 +89,10 @@ public class EscapeGameAdministrator implements EscapeGameManager
 				return false;
 			}
 			
+			Player fromplayer = fromPiece.getPlayer();
+			
 			// there is the same player's piece at destination
-			if(toPiece != null && fromPiece.getPlayer() == toPiece.getPlayer())
+			if(toPiece != null && fromplayer == toPiece.getPlayer())
 			{
 				notifyAllObservers("Cannot move piece to new coordinate. Another one of your pieces currently occupies that space.");
 				return false;
@@ -104,25 +106,28 @@ public class EscapeGameAdministrator implements EscapeGameManager
 			}
 			
 			// check if it is player's turn
-			if(fromPiece.getPlayer() != state.getPlayer())
+			if(fromplayer != state.getPlayer())
 			{
 				notifyAllObservers("Wrong player: It is the other player's turn to make a move");
 				return false;
 			}
 			
+			int fromVal = fromPiece.getValue();
+			
 			if(fromPiece.canMove(from, to, gameboard))
 			{
 				if(toPiece != null && pointconflict)
 				{
+					int toVal = toPiece.getValue();
 					// case of point conflict
-					if(toPiece.getValue() > fromPiece.getValue()) 
+					if(toVal > fromVal) 
 					{ 
-						toPiece.updateValue(toPiece.getValue() - fromPiece.getValue());
+						toPiece.updateValue(toVal - fromVal);
 						gameboard.putPieceAt(toPiece, to);
 					}
-					else if(toPiece.getValue() < fromPiece.getValue())
+					else if(toVal < fromVal)
 					{
-						fromPiece.updateValue(fromPiece.getValue() - toPiece.getValue());
+						fromPiece.updateValue(fromVal - toVal);
 						gameboard.putPieceAt(fromPiece, to);
 					}
 					else
@@ -136,15 +141,15 @@ public class EscapeGameAdministrator implements EscapeGameManager
 				{
 					// case of exiting the board
 					gameboard.putPieceAt(null, to);
-					int newPoints = state.getPlayerPoints(fromPiece.getPlayer()) + fromPiece.getValue();
-					state.updatePlayerPoints(newPoints, fromPiece.getPlayer());
+					int newPoints = state.getPlayerPoints(fromplayer) + fromVal;
+					state.updatePlayerPoints(newPoints, fromplayer);
 				}
 				else
 					gameboard.putPieceAt(fromPiece, to);
 				
 				gameboard.putPieceAt(null, from);
 				state.updateTurn();
-				if(turnLimit <= state.getTurn() || score <= state.getPlayerPoints(fromPiece.getPlayer()))
+				if(turnLimit <= state.getTurn() || score <= state.getPlayerPoints(fromplayer))
 					state.gameHasWon();
 				return true;
 			}
@@ -208,12 +213,22 @@ public class EscapeGameAdministrator implements EscapeGameManager
 		return null;
 	}
 	
+	/**
+	 * Notifies all the observers
+	 * @param message
+	 */
 	private void notifyAllObservers(String message)
 	{
 		for(GameObserver obe: observers)
 			obe.notify(message);
 	}
 	
+	/**
+	 * 
+	 * Notifies all the observers
+	 * @param message
+	 * @param cause
+	 */
 	private void notifyAllObservers(String message, Throwable cause )
 	{
 		for(GameObserver obe: observers)

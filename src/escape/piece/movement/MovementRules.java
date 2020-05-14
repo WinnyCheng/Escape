@@ -15,6 +15,7 @@ package escape.piece.movement;
 import escape.board.*;
 import escape.board.coordinate.*;
 import escape.piece.*;
+import static escape.board.LocationType.*;
 import java.util.*;
 
 /**
@@ -198,5 +199,53 @@ public abstract class MovementRules<C extends Coordinate2D, B extends GeneralBoa
 	 * @param des
 	 */
 	protected abstract void addVertex(int x, int y, B board);
+	
+	/**
+	 * Helper function for addVertex. Detemines if there is a potential path to a coordinate
+	 * @param key is the coordinate in question
+	 * @param board is the game board
+	 * @param type is the type of the coordinate given by x, y from addVertex
+	 * @param piece is the piece at the coordinate given by x, y from addVertex
+	 * @return true if there can be a edge from (x, y) coordinate to key coordinate
+	 */
+	protected boolean hasPathTo(C key, B board, LocationType type, EscapePiece piece)
+	{
+		LocationType keytype = board.getLocationType(key);
+		EscapePiece keypiece = board.getPieceAt(key);
+		return (type == CLEAR && keytype == CLEAR && piece == null && keypiece == null) 
+				|| (unblock && piece == null && keypiece == null) 
+				|| (jump && type == CLEAR && keytype == CLEAR) 
+				|| jump && unblock || fly;
+	}
+	
+	/**
+	 * Helper function for abideRules, makes changes to board to map out the
+	 *  desired graph and then reverts back the changes made to board.
+	 * @param from the start coordinate 
+	 * @param to the destination coordinate
+	 * @param board the game board
+	 */
+	protected void abideRulesHelper(C from, C to, B board)
+	{
+		// remove piece from the "from" and "to" coordinate
+		// this needs to be done because of the way search algorithm and map is set up
+		EscapePiece frompiece = board.getPieceAt(from);
+		EscapePiece topiece = board.getPieceAt(to);
+		
+		board.putPieceAt(null, from);
+		board.putPieceAt(null, to);
+		LocationType type = board.getLocationType(to);
+		if(type == EXIT)
+			board.setLocationType(to, CLEAR);
+		
+		toGraph(from, to, board);
+		
+		if(type == EXIT)
+			board.setLocationType(to, EXIT);
+		
+		// put the pieces back to thier original place
+		board.putPieceAt(frompiece, from);
+		board.putPieceAt(topiece, to);
+	}
 
 }

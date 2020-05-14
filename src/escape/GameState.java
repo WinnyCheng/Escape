@@ -14,49 +14,65 @@ package escape;
 
 import escape.piece.Player;
 import static escape.piece.Player.*;
+import java.util.HashMap;
 
 /**
  * Keeps track of the state of the game
  * @version May 13, 2020
  */
-public class GameState
+public class GameState 
 {
+	private HashMap<Player, Integer> players;
 	private Player currentPlayer;
-	private int turnNum, player1Points, player2Points;
+	private int turnNum;
 	private boolean gameWon;
 	
 	public GameState() 
 	{
 		this.currentPlayer = PLAYER1;
 		this.turnNum = 0;
-		this.player1Points = 0;
-		this.player2Points = 0;
+		this.players = new HashMap<Player, Integer>();
+		players.put(PLAYER1, 0);
+		players.put(PLAYER2, 0);
 		this.gameWon = false;
 	}
 	
-	public Player getPlayer()
+	/**
+	 * @return the player that is making a move
+	 */
+	public Player getPlayer() 
 	{
 		return currentPlayer;
 	}
 	
+	/**
+	 * @return the number of turns so far in game
+	 */
 	public int getTurn()
 	{
 		return turnNum;
 	}
 	
+	/**
+	 * @param player the player
+	 * @return the points of the given player
+	 */
 	public int getPlayerPoints(Player player)
 	{
-		if(player == PLAYER1)
-			return player1Points;
-		else
-			return player2Points;
+		return players.get(player);
 	}
 	
+	/**
+	 * @return true if a player wins or theres a tie, otherwise false
+	 */
 	public boolean isGameWon()
 	{
 		return gameWon;
 	}
 	
+	/**
+	 * Update turn and current player for each move made
+	 */
 	public void updateTurn() 
 	{
 		if(currentPlayer == PLAYER1)
@@ -68,27 +84,36 @@ public class GameState
 		}
 	}
 	
-	public void updatePlayerPoints(int points, Player player) 
+	/**
+	 * Updates player's total points for the game
+	 * @param pointsGain the number of points to add
+	 * @param player is the player
+	 */
+	public void updatePlayerPoints(int pointsGain, Player player) 
 	{
-		if(player == PLAYER1)
-			this.player1Points = points;
-		else
-			this.player2Points = points;
+		players.put(player, players.get(player) + pointsGain);
 	}
 	
+	/**
+	 * The game is over 
+	 */
 	public void gameHasWon() 
 	{
 		this.gameWon = true;
 	}
 	
+	/**
+	 * Determines who the winner of the game is
+	 * @return the winner of the game, if tie or game is not over return null
+	 */
 	public Player winner()
 	{
 		if(!gameWon) //game has not ended, no winner yet
 			return null;
 		
-		if(player1Points > player2Points)
+		if(players.get(PLAYER1) > players.get(PLAYER2))
 			return PLAYER1;
-		else if(player1Points < player2Points)
+		else if(players.get(PLAYER1) < players.get(PLAYER2))
 			return PLAYER2;
 		return null;
 	}

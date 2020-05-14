@@ -51,7 +51,7 @@ public class EscapeGameBuilder
         Unmarshaller mub = contextObj.createUnmarshaller();
         gameInitializer = 
             (EscapeGameInitializer)mub.unmarshal(new FileReader(fileName));
-    }
+    } 
     
     /**
      * Once the builder is constructed, this method creates the
@@ -106,9 +106,7 @@ public class EscapeGameBuilder
 			}
 			
 			if (li.locationType != null && li.locationType != CLEAR) 
-			{
 				b.setLocationType(c, li.locationType);
-			}
 		}
 	}
     
@@ -151,11 +149,9 @@ public class EscapeGameBuilder
   					else if(atr.getId() == VALUE)
   						rules.setValue(atr.getIntValue());
   				}
-  				
   				break;
   			}
   		}
-  		
   		return rules;
   	}
     

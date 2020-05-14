@@ -17,7 +17,6 @@ import escape.board.coordinate.OrthoSquareCoordinate;
 import escape.piece.*;
 import static escape.board.coordinate.OrthoSquareCoordinate.makeCoordinate;
 import static escape.piece.MovementPatternID.*;
-import static escape.board.LocationType.*;
 import java.util.*;
 
 /**
@@ -37,25 +36,7 @@ public class OrthoMovementRules extends MovementRules<OrthoSquareCoordinate, Ort
 	@Override
 	public boolean abideRules(OrthoSquareCoordinate from, OrthoSquareCoordinate to, OrthoSquareBoard board) 
 	{
-		// remove piece from the "from" and "to" coordinate
-		// this needs to be done because of the way search algorithm and map is set up
-		EscapePiece frompiece = board.getPieceAt(from);
-		EscapePiece topiece = board.getPieceAt(to);
-		
-		board.putPieceAt(null, from);
-		board.putPieceAt(null, to);
-		LocationType type = board.getLocationType(to);
-		if(type == EXIT)
-			board.setLocationType(to, CLEAR);
-		
-		toGraph(from, to, board);
-		
-		if(type == EXIT)
-			board.setLocationType(to, EXIT);
-		
-		// put the pieces back to thier original place
-		board.putPieceAt(frompiece, from);
-		board.putPieceAt(topiece, to);
+		abideRulesHelper(from, to, board);
 		
 		if(pattern == LINEAR) 
 		{
@@ -93,15 +74,9 @@ public class OrthoMovementRules extends MovementRules<OrthoSquareCoordinate, Ort
 		
 		for(OrthoSquareCoordinate key : map.keySet()) 
 		{
-			LocationType keytype = board.getLocationType(key);
-			EscapePiece keypiece = board.getPieceAt(key);
-			if((type == CLEAR && keytype == CLEAR && piece == null && keypiece == null) 
-					|| (unblock && piece == null && keypiece == null) 
-					|| (jump && type == CLEAR && keytype == CLEAR) 
-					|| jump && unblock || fly)
+			if(hasPathTo(key, board, type, piece) && coord.distanceTo(key) == 1)
 			{
-			    if(coord.distanceTo(key) == 1)
-			    	addEdge(coord, key);
+		    	addEdge(coord, key);
 			}
 		}
 		

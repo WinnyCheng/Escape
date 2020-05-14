@@ -17,7 +17,6 @@ import escape.board.coordinate.SquareCoordinate;
 import escape.piece.*;
 import static escape.board.coordinate.SquareCoordinate.makeCoordinate;
 import static escape.piece.MovementPatternID.*;
-import static escape.board.LocationType.*;
 import java.util.*;
 
 /**
@@ -37,25 +36,7 @@ public class SquareMovementRules extends MovementRules<SquareCoordinate, SquareB
 	@Override
 	public boolean abideRules(SquareCoordinate from, SquareCoordinate to, SquareBoard board) 
 	{
-		// remove piece from the "from" and "to" coordinate
-		// this needs to be done because of the way search algorithm and map is set up
-		EscapePiece frompiece = board.getPieceAt(from);
-		EscapePiece topiece = board.getPieceAt(to);
-		
-		board.putPieceAt(null, from);
-		board.putPieceAt(null, to);
-		LocationType type = board.getLocationType(to);
-		if(type == EXIT)
-			board.setLocationType(to, CLEAR);
-		
-		toGraph(from, to, board);
-		
-		if(type == EXIT)
-			board.setLocationType(to, EXIT);
-		
-		// put the pieces back to thier original place
-		board.putPieceAt(frompiece, from);
-		board.putPieceAt(topiece, to);
+		abideRulesHelper(from, to, board);
 		
 		if(pattern == LINEAR) 
 		{
@@ -101,22 +82,23 @@ public class SquareMovementRules extends MovementRules<SquareCoordinate, SquareB
 		
 		for(SquareCoordinate key : map.keySet()) 
 		{
-			LocationType keytype = board.getLocationType(key);
-			EscapePiece keypiece = board.getPieceAt(key);
-			if((type == CLEAR && keytype == CLEAR && piece == null && keypiece == null) 
-					|| (unblock && piece == null && keypiece == null) 
-					|| (jump && type == CLEAR && keytype == CLEAR) 
-					|| jump && unblock || fly)
-			{
-			    if(coord.distanceTo(key) == 1)
-			    {
-			    	if(pattern == OMNI || pattern == LINEAR ||
-			    			pattern == DIAGONAL && Math.abs(coord.deltaX(key)) == Math.abs(coord.deltaY(key))||
-			    			pattern == ORTHOGONAL && (coord.deltaX(key) == 0 || coord.deltaY(key) == 0))
-			    		addEdge(coord, key);
-			    }
-			}
+			if(hasPathTo(key, board, type, piece) && isDistanceOne(key, coord))
+	    		addEdge(coord, key);
 		}
+	}
+	
+	/**
+	 * Determines if key coordinate and coord coordinate are one distance apart
+	 *  taking into accound the movement pattern
+	 * @param key
+	 * @param coord
+	 * @return true if the distance is one taking into account the movement pattern
+	 */
+	private boolean isDistanceOne(SquareCoordinate key, SquareCoordinate coord)
+	{
+		return coord.distanceTo(key) == 1 && (pattern == OMNI || pattern == LINEAR ||
+    			pattern == DIAGONAL && Math.abs(coord.deltaX(key)) == Math.abs(coord.deltaY(key))||
+    			pattern == ORTHOGONAL && (coord.deltaX(key) == 0 || coord.deltaY(key) == 0));
 	}
 
 }

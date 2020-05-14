@@ -47,7 +47,7 @@ To Do List:
       - move function to include rules and notify observers - Done
       - implement addObserver and remove Observer methods - Done
       - add a notify allObservers method - Done
- 6. Refactor Code and Comments
+ 6. Refactor Code and Comments - Done
  7. Design Doc
       
       
